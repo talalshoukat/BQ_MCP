@@ -1,0 +1,53 @@
+verify_ssl: ${oc.env:VERIFY_SSL,True}
+
+llm:
+  base_url: ${oc.env:LLM_API_URL,https://llm-ingress-dev.gcp.gosi.cloud/qwen3-4b-instruct-2507-fp8/v1}
+  model_name: ${oc.env:MODEL_NAME,qwen3-4b-instruct-2507-fp8}
+  api_key: ${oc.env:LLM_API_KEY}
+
+subagents:
+
+  # gitlab_agent:
+  #   mcp_url: http://10.235.0.38:8080/mcp
+
+  gosi_laws_agent:
+    opensearch:
+      hosts: https://opensearch-dev.gcp.gosi.cloud:443
+      index: gosi-laws-testt
+      verify_certs: ${verify_ssl}
+      use_ssl: true
+      create_index: false
+    embedding:
+      model: e5-large
+      api_base_url: https://llm-ingress-dev.gcp.gosi.cloud/e5-large/v1
+      api_key: ${oc.env:OPENAI_API_KEY,0daadbdd-0a8e-4791-9506-5e21c496e5f0}
+      prefix: "query: "
+      http_client_kwargs:
+        verify: ${verify_ssl}
+
+  # hr_policies_agent:
+  #   opensearch:
+  #     hosts: https://opensearch-dev.gcp.gosi.cloud:443
+  #     index: null # tbd
+  #     verify_certs: ${verify_ssl}
+  #     use_ssl: true
+  #     create_index: false
+  #   embedding: ${subagents.gosi_laws_agent.embedding}
+
+  # faqs_agent:
+  #   opensearch:
+  #     hosts: https://opensearch-dev.gcp.gosi.cloud:443
+  #     index: null # tbd
+  #     verify_certs: ${verify_ssl}
+  #     use_ssl: true
+  #     create_index: false
+  #   embedding: ${subagents.gosi_laws_agent.embedding}
+
+  fraud_agent:
+    project_id: ${oc.env:FRAUD_PROJECT_ID,your-gcp-project-id}
+    dataset_id: ${oc.env:FRAUD_DATASET_ID,fraud_data}
+    table_name: ${oc.env:FRAUD_TABLE_NAME,fraud_records}
+    # BigQuery configuration for fraud data analysis using ADK built-in tools
+    # Ensure your GCP project has BigQuery API enabled
+    # and appropriate service account credentials are configured
+ 
