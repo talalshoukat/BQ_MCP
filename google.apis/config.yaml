@@ -1,0 +1,26 @@
+agent:
+  name: bigquery_mcp_agent
+  description: "MCP Agent for BigQuery data analysis using Google ADK and BigQuery tools"
+  model: "gemini-2.0-flash-exp"
+  
+bigquery:
+  project_id: "your-gcp-project-id"  # Replace with your actual project ID
+  dataset_id: "your_dataset"         # Replace with your actual dataset
+  location: "US"                     # Replace with your preferred location
+  
+tools:
+  - name: "bigquery-sql"
+    description: "Execute SQL queries on BigQuery"
+  - name: "bigquery-get-table-info"
+    description: "Get table schema and metadata"
+  - name: "bigquery-get-dataset-info"
+    description: "Get dataset information"
+  - name: "bigquery-list-tables"
+    description: "List tables in a dataset"
+  - name: "bigquery-analyze-contribution"
+    description: "Analyze contribution of different dimensions"
+  - name: "bigquery-forecast"
+    description: "Generate forecasts from time series data"
+
+logging:
+  level: "INFO"
